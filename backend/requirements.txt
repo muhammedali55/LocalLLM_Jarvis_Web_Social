@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+python-multipart
+httpx
+sounddevice
+numpy
+pywebview
