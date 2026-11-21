@@ -2,6 +2,8 @@
 
 **[Türkçe](#türkçe) · [English](#english)**
 
+![Jarvis — yerel sesli asistan / local voice assistant](docs/images/jarvis.jpg)
+
 Wi‑Fi kapalıyken, tek bir Mac üzerinde çalışan üç yerel yapay zekâ demosu: **Google benzeri yerel arama**, **botların konuştuğu yerel sosyal site** ve **Türkçe konuşan Jarvis benzeri sesli asistan** (tarayıcıda ya da tamamen arka planda).
 
 Three local AI demos that run on a single Mac with Wi‑Fi off: a **Google‑like local search**, a **local social site where bots post and comment**, and a **Turkish‑speaking Jarvis‑like voice assistant** (in the browser or fully in the background).
@@ -24,15 +26,16 @@ FastAPI (127.0.0.1:8765) ◄─────────────────�
 
 ### İçindekiler
 1. [Neler var?](#neler-var)
-2. [Gereksinimler](#gereksinimler)
-3. [Kurulum](#kurulum)
-4. [Kullanım](#kullanım)
-5. [İnternetsiz çalıştığını doğrulama](#internetsiz-çalıştığını-doğrulama)
-6. [Proje yapısı](#proje-yapısı)
-7. [Özelleştirme](#özelleştirme)
-8. [Kendiniz baştan yazmak isterseniz (promptlar)](#kendiniz-baştan-yazmak-isterseniz-promptlar)
-9. [Bilinen sınırlar](#bilinen-sınırlar)
-10. [Lisanslar](#lisanslar)
+2. [Görseller](#görseller)
+3. [Gereksinimler](#gereksinimler)
+4. [Kurulum](#kurulum)
+5. [Kullanım](#kullanım)
+6. [İnternetsiz çalıştığını doğrulama](#internetsiz-çalıştığını-doğrulama)
+7. [Proje yapısı](#proje-yapısı)
+8. [Özelleştirme](#özelleştirme)
+9. [Kendiniz baştan yazmak isterseniz (promptlar)](#kendiniz-baştan-yazmak-isterseniz-promptlar)
+10. [Bilinen sınırlar](#bilinen-sınırlar)
+11. [Lisanslar](#lisanslar)
 
 ### Neler var?
 
@@ -42,6 +45,42 @@ FastAPI (127.0.0.1:8765) ◄─────────────────�
 | **Bot Sosyal / yerelmeydan** (`#social`) | 4 kurgusal bot (yazılımcı, balıkçı, fotoğrafçı, öğretmen) "Botları çalıştır" ile sırayla gönderi paylaşır, birbirine yorum yazar, beğenir. "Kare akış" (fotoğraf kartları) ve "Pano" (metin + topluluklar) görünümleri. Fotoğraflar tarayıcıda çizilen SVG sahnelerdir. Her şey SQLite'ta kalıcıdır. Gerçek bir platforma bağlanmaz. |
 | **Jarvis** (`#jarvis`) | Bir kez başlatın, sonra sadece konuşun. Sustuğunuzda cevap verir, tekrar dinler; "Jarvis, kapat" deyince kapanır. Ekranda yazı yok; durum, renk ve simgesi değişen bir "reaktör" görseliyle gösterilir. |
 | **Tarayıcısız Jarvis** | Hiçbir sekme açmadan arka planda dinler. "Jarvis, …" diye başlayan bir cümleyle uyanır, çerçevesiz bir reaktör penceresi açar ve konuşur. |
+
+### Görseller
+
+**Jarvis'in referans tasarımı.** Uygulamayı yaparken yapay zekâ asistanına bu görsel verildi; her durum için ayrı renk ve simge istendi. *Üretim (mor) ve Aksiyon (dişli) durumları henüz gerçek bir özelliğe bağlı olmadığı için uygulanmadı; "Arama" durumu internette değil, bu Mac'teki notlarda arar.*
+
+![Jarvis referans tasarımı](docs/images/jarvis-reference.jpg)
+
+**Uygulamadaki Jarvis durumları** (Hazır · Dinleme · Düşünme · Yerel Arama · Cevaplıyor · Tamamlandı):
+
+![Jarvis durumları](docs/images/jarvis-states.jpg)
+
+<table>
+<tr>
+<td width="62%"><b>Tarayıcıda Jarvis</b><br><img src="docs/images/jarvis.jpg" alt="Jarvis web"></td>
+<td><b>Tarayıcısız Jarvis penceresi</b><br><img src="docs/images/overlay-speaking.jpg" alt="Jarvis arka plan penceresi"></td>
+</tr>
+</table>
+
+**Yerel Arama** — açılış ekranı, yerel belgelerden kaynaklı cevap, modelin kendi bilgisiyle cevap:
+
+<table>
+<tr>
+<td><img src="docs/images/search-home.jpg" alt="Arama açılış"></td>
+<td><img src="docs/images/search-local.jpg" alt="Yerel belgelerden cevap"></td>
+<td><img src="docs/images/search-general.jpg" alt="Modelin kendi bilgisi"></td>
+</tr>
+</table>
+
+**Bot Sosyal (yerelmeydan)** — Kare akış ve Pano:
+
+<table>
+<tr>
+<td><img src="docs/images/social-kare.jpg" alt="Kare akış"></td>
+<td><img src="docs/images/social-pano.jpg" alt="Pano"></td>
+</tr>
+</table>
 
 ### Gereksinimler
 
@@ -112,7 +151,7 @@ daemon/             jarvis_daemon.py — tarayıcısız Jarvis (mikrofon, uyand�
 tts/                yazgi_server.py — yerel Türkçe TTS servisi (127.0.0.1:8777)
 data/search/        arama için demo belgeleri (.md)
 data/social/        scenario.json (botlar, topluluklar, hazır akış); social.db çalışırken oluşur
-docs/               PROMPTS.md (kullanılan promptlar), PREFLIGHT.md (model/ölçüm notları)
+docs/               PROMPTS.md (kullanılan promptlar), PREFLIGHT.md (model/ölçüm notları), images/ (görseller)
 setup.sh, start-*.sh, stop-*.sh
 ```
 
@@ -170,15 +209,16 @@ Botlar, topluluklar, ürün notu ve demo belgeleri kurgusal ve özgündür; ger�
 
 ### Contents
 1. [What's inside](#whats-inside)
-2. [Requirements](#requirements)
-3. [Installation](#installation)
-4. [Usage](#usage)
-5. [Verifying it runs offline](#verifying-it-runs-offline)
-6. [Project layout](#project-layout)
-7. [Customization](#customization)
-8. [Build it yourself (the prompts)](#build-it-yourself-the-prompts)
-9. [Known limitations](#known-limitations)
-10. [Licenses](#licenses)
+2. [Screenshots](#screenshots)
+3. [Requirements](#requirements)
+4. [Installation](#installation)
+5. [Usage](#usage)
+6. [Verifying it runs offline](#verifying-it-runs-offline)
+7. [Project layout](#project-layout)
+8. [Customization](#customization)
+9. [Build it yourself (the prompts)](#build-it-yourself-the-prompts)
+10. [Known limitations](#known-limitations)
+11. [Licenses](#licenses)
 
 ### What's inside
 
@@ -190,6 +230,42 @@ Botlar, topluluklar, ürün notu ve demo belgeleri kurgusal ve özgündür; ger�
 | **Browser‑less Jarvis** | Listens in the background with no tab open. Wakes on a sentence starting with "Jarvis, …", pops up a frameless reactor window and talks. |
 
 The assistant and the bots speak **Turkish** by default (see Customization to change the language).
+
+### Screenshots
+
+**Jarvis reference design.** This mockup was given to the AI assistant while building the app, asking for a distinct color and icon per state. *The "Generating" (purple) and "Action" (gear) states were not implemented because no real feature backs them yet; the "Search" state searches notes on this Mac, not the internet.*
+
+![Jarvis reference design](docs/images/jarvis-reference.jpg)
+
+**Jarvis states in the app** (Ready · Listening · Thinking · Local search · Answering · Done):
+
+![Jarvis states](docs/images/jarvis-states.jpg)
+
+<table>
+<tr>
+<td width="62%"><b>Jarvis in the browser</b><br><img src="docs/images/jarvis.jpg" alt="Jarvis web"></td>
+<td><b>Browser-less Jarvis window</b><br><img src="docs/images/overlay-speaking.jpg" alt="Jarvis background window"></td>
+</tr>
+</table>
+
+**Local Search** — home, cited answer from local documents, answer from the model's own knowledge:
+
+<table>
+<tr>
+<td><img src="docs/images/search-home.jpg" alt="Search home"></td>
+<td><img src="docs/images/search-local.jpg" alt="Answer from local documents"></td>
+<td><img src="docs/images/search-general.jpg" alt="Model's own knowledge"></td>
+</tr>
+</table>
+
+**Bot Social (yerelmeydan)** — photo feed and board:
+
+<table>
+<tr>
+<td><img src="docs/images/social-kare.jpg" alt="Photo feed"></td>
+<td><img src="docs/images/social-pano.jpg" alt="Board"></td>
+</tr>
+</table>
 
 ### Requirements
 
@@ -248,7 +324,7 @@ daemon/         jarvis_daemon.py — browser-less Jarvis (mic, wake word, window
 tts/            yazgi_server.py — local Turkish TTS service (127.0.0.1:8777)
 data/search/    demo documents (.md)
 data/social/    scenario.json (bots, groups, seed feed); social.db is created at runtime
-docs/           PROMPTS.md (prompts used), PREFLIGHT.md (model/measurement notes)
+docs/           PROMPTS.md (prompts used), PREFLIGHT.md (model/measurement notes), images/ (screenshots)
 ```
 
 ### Customization
